@@ -103,7 +103,15 @@
   };
 
   function pickHue(options) {
+    if (typeof options.hueRange !== 'undefined' && options.hueRange.length === 2) {
+      var hue = randomWithin(options.hueRange);
+      // See below.
+      if (hue < 0) {hue = 360 + hue;}
+      return hue;
+    }
+
     if (colorRanges.length > 0) {
+
       var hueRange = getRealHueRange(options.hue)
 
       var hue = randomWithin(hueRange)
@@ -146,6 +154,9 @@
   }
 
   function pickSaturation (hue, options) {
+    if (typeof options.saturationRange !== 'undefined' && options.saturationRange.length === 2) {
+      return randomWithin(options.saturationRange);
+    }
 
     if (options.hue === 'monochrome') {
       return 0;
@@ -180,6 +191,9 @@
   }
 
   function pickBrightness (H, S, options) {
+    if (typeof options.brightnessRange !== 'undefined' && options.brightnessRange.length === 2) {
+      return randomWithin(options.brightnessRange);
+    }
 
     var bMin = getMinimumBrightness(H, S),
         bMax = 100;
